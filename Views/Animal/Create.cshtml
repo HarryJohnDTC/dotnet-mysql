@@ -1,0 +1,31 @@
+@model DotnetMysql.Models.Animal
+
+<form asp-action="Create" method="post">
+    <div>
+        <label asp-for="Type"></label>
+        <input asp-for="Type" />
+        <span asp-validation-for="Type"></span>
+    </div>
+    <div>
+        <label asp-for="Nom"></label>
+        <input asp-for="Nom" />
+        <span asp-validation-for="Nom"></span>
+    </div>
+    <div>
+        <label asp-for="Couleur"></label>
+        <input asp-for="Couleur" />
+        <span asp-validation-for="Couleur"></span>
+    </div>
+    <div>
+        <label asp-for="Pattes"></label>
+        <input asp-for="Pattes" />
+        <span asp-validation-for="Pattes"></span>
+    </div>
+    <div>
+        <label asp-for="ImageF"></label>
+        <input asp-for="ImageF" />
+        <span asp-validation-for="ImageF"></span>
+    </div>
+
+    <button type="submit">Create</button>
+</form>

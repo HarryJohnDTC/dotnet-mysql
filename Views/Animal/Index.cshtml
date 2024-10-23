@@ -1,0 +1,49 @@
+@model IEnumerable<DotnetMysql.Models.Animal>
+
+<h2>Liste des Animaux</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Ajouter un nouvel Animal</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Nom</th>
+            <th>Couleur</th>
+            <th>Pattes</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var animal in Model)
+        {
+            <tr>
+                <td>@animal.Id</td>
+                <td>@animal.Type</td>
+                <td>@animal.Nom</td>
+                <td>@animal.Couleur</td>
+                <td>@animal.Pattes</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(animal.ImageF))
+                    {
+                        var imageUrl = animal.ImageF.Replace("wwwroot\\", "/").Replace("\\", "/");
+                        <a href="@imageUrl" target="_blank">Voir l'image</a>
+                    }
+                    else
+                    {
+                        <span>Pas d'image disponible</span>
+                    }
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@animal.Id" class="btn btn-warning">Modifier</a>
+                    <a asp-action="Delete" asp-route-id="@animal.Id" class="btn btn-danger">Supprimer</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
