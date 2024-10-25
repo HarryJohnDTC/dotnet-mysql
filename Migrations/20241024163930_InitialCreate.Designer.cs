@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotnetMysql.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241014102554_AddUserIdToAnimal")]
-    partial class AddUserIdToAnimal
+    [Migration("20241024163930_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -51,16 +51,12 @@ namespace DotnetMysql.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
 
                     b.ToTable("Animals");
                 });
 
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("DotnetMysql.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,11 +64,11 @@ namespace DotnetMysql.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Password")
+                    b.Property<string>("Pass")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("Pseudo")
                         .IsRequired()
                         .HasColumnType("longtext");
 

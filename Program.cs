@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using DotnetMysql.Data;
 using DotnetMysql.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Ajouter les services aux contrôleurs avec vues
 builder.Services.AddControllersWithViews();
+
+// Configurer l'authentification par cookie
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Auth/Login";
+        options.LogoutPath = "/Auth/Logout";
+    });
 
 var app = builder.Build();
 
@@ -23,9 +32,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.UseAuthentication(); // Authentification
 app.UseAuthorization();
 
 // Configurer les routes
@@ -35,7 +43,14 @@ app.MapControllerRoute(
     defaults: new { controller = "Animal" }
 );
 
+// Ajoutez une route pour le contrôleur d'authentification
+app.MapControllerRoute(
+    name: "auth",
+    pattern: "Auth/{action=Login}/{id?}",
+    defaults: new { controller = "Auth", action = "Login" }
+);
 
+// Route par défaut
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

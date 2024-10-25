@@ -1,0 +1,15 @@
+@model DotnetMysql.Models.User
+
+<form asp-action="Login" method="post">
+    <div>
+        <label asp-for="Pseudo"></label>
+        <input asp-for="Pseudo" />
+        <span asp-validation-for="Pseudo"></span>
+    </div>
+    <div>
+        <label asp-for="Pass"></label>
+        <input asp-for="Pass" />
+        <span asp-validation-for="Pass"></span>
+    </div>
+    <button type="submit">Se connecter</button>
+</form>

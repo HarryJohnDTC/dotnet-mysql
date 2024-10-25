@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("DotnetMysql")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+994b91b2d5731cece9a73df3e69f5a3a329b622d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebbdf246f248e7fddb387069c79827c8390bda65")]
 [assembly: System.Reflection.AssemblyProductAttribute("DotnetMysql")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DotnetMysql")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
