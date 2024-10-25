@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DotnetMysql")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebbdf246f248e7fddb387069c79827c8390bda65")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a6e14c0933638b113c91762fd438b859cd18d80")]
 [assembly: System.Reflection.AssemblyProductAttribute("DotnetMysql")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DotnetMysql")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

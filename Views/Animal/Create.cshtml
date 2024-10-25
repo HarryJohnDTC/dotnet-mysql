@@ -29,3 +29,13 @@
 
     <button type="submit">Create</button>
 </form>
+
+        @if (User.Identity.IsAuthenticated)
+{
+    <p>Bienvenue, @User.Identity.Name!</p>
+    <a asp-controller="Auth" asp-action="Logout">Déconnexion</a>
+}
+else
+{
+    <a asp-controller="Auth" asp-action="Login">Connexion</a>
+}

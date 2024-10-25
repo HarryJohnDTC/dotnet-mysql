@@ -23,6 +23,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
+
+
 // Configurer le pipeline de requêtes HTTP
 if (!app.Environment.IsDevelopment())
 {

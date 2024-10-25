@@ -3,6 +3,7 @@ using DotnetMysql.Data;
 using DotnetMysql.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 public class AnimalController : Controller
 {
@@ -14,18 +15,21 @@ public class AnimalController : Controller
     }
 
     // GET: Animal
+    [Authorize]
     public IActionResult Index()
     {
         var animals = _context.Animals.ToList(); // Assurez-vous que Animals est bien le DbSet dans votre ApplicationDbContext
         return View(animals); // Renvoie la vue avec la liste des animaux
     }
 
+    [Authorize]
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
 
+    [Authorize]
     [HttpPost]
     public IActionResult Create(Animal animal)
     {
@@ -41,6 +45,7 @@ public class AnimalController : Controller
     }
 
     // GET: Animal/Edit/5
+    [Authorize]
     public IActionResult Edit(int id)
     {
         var animal = _context.Animals.Find(id);
@@ -52,6 +57,7 @@ public class AnimalController : Controller
     }
 
     // POST: Animal/Edit/5
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Animal animal)

@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using DotnetMysql.Data;
 using DotnetMysql.Models;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace DotnetMysql.Controllers
 {
@@ -20,30 +23,52 @@ namespace DotnetMysql.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(User user)
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Login(User user)
+{
+    if (ModelState.IsValid)
+    {
+        Console.WriteLine($"Pseudo saisi: {user.Pseudo}");
+
+        // Vérifiez si l'utilisateur existe avec le pseudo et le mot de passe en texte brut
+        var existingUser = await _context.Users
+            .FirstOrDefaultAsync(u => u.Pseudo == user.Pseudo && u.Pass == user.Pass);
+        
+        if (existingUser != null)
         {
-            if (ModelState.IsValid)
+            Console.WriteLine("Utilisateur trouvé !");
+            
+            // Authentifier l'utilisateur ici
+            var claims = new List<Claim>
             {
-                // Hacher le mot de passe saisi
-                var hashedPassword = user.HashPassword(user.Pass);
+                new Claim(ClaimTypes.Name, existingUser.Pseudo)
+            };
 
-                // Vérifiez si l'utilisateur existe
-                var existingUser = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Pseudo == user.Pseudo && u.Pass == hashedPassword);
-                if (existingUser != null)
-                {
-                    // Authentifiez l'utilisateur
-                    // Utilisez des cookies ou des sessions pour gérer la connexion
-                    // Exemple : TempData["UserId"] = existingUser.Id;
-                    return RedirectToAction("Index", "Home"); // Redirection vers la page d'accueil
-                }
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true // Permet de se souvenir de l'utilisateur
+            };
 
-                ModelState.AddModelError("", "Tentative de connexion invalide.");
-            }
-            return View(user);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
+                new ClaimsPrincipal(claimsIdentity), authProperties);
+
+            return RedirectToAction("Index", "Home");
         }
+
+        Console.WriteLine("Tentative de connexion invalide.");
+        ModelState.AddModelError("", "Tentative de connexion invalide.");
+    }
+    return View(user);
+}
+
+public async Task<IActionResult> Logout()
+{
+    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    return RedirectToAction("Login");
+}
+
 
         public IActionResult Register()
         {
@@ -56,9 +81,7 @@ namespace DotnetMysql.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Hacher le mot de passe avant de le stocker
-                user.Pass = user.HashPassword(user.Pass);
-
+                // Ajoutez l'utilisateur sans hachage pour l'instant
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Login"); // Redirection vers la page de connexion

@@ -8,8 +8,10 @@
     </div>
     <div>
         <label asp-for="Pass"></label>
-        <input asp-for="Pass" />
+        <input asp-for="Pass" type="password" />
         <span asp-validation-for="Pass"></span>
     </div>
     <button type="submit">Se connecter</button>
 </form>
+
+<p>Pas encore inscrit ? <a asp-controller="Auth" asp-action="Register">Créer un compte</a></p>
